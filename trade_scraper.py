@@ -28,7 +28,7 @@ def get_soup():
 
 def extract_save_csv():
     soup = get_soup()
-    result = soup.select('.hide-scrollbar ul')
+    result = soup.select('.hide-scrollbar ul') # trades-list hide-scrollbar -logos
     with open('trade_watcher.csv', 'a', newline="") as trade_watcher:
         writeCSV = csv.writer(trade_watcher)
         for unorder_list in result:
