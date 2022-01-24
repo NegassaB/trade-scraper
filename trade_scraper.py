@@ -32,10 +32,9 @@ for res in result:
         print(f"{list_items.attrs['class']} -- {list_items.attrs['title']}")
         for content in list_items:
             if isinstance(content, NavigableString):
-                print("found a NavigableString")
                 pass
             else:
-                type(content)
+                print(f"{content.attrs}\n")
                 print(f"{content}\n")
             # print(content.class)
         break
