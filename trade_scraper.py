@@ -2,7 +2,7 @@ import csv
 import time
 
 from bs4 import BeautifulSoup as bs
-from bs4.element import NavigableString
+from bs4.element import NavigableString, Tag
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -35,7 +35,22 @@ for res in result:
                 pass
             else:
                 print(f"{content.attrs}\n")
-                print(f"{content}\n")
+                # print(f"{content.contents}")
+                # print(f"{content.children}\n")
+                if "trade__amount" in content.attrs:
+                    print(content.span.next_sibling)
+                for child in content:
+                    if isinstance(child, Tag):
+                        for sib in child:
+                            # type(sib)
+                            if isinstance(sib, NavigableString):
+                                pass
+                            else:
+                                print(f"{sib.attrs} {sib.text.strip()}")
+                            # print(sib.attrs)
+                    print(f"{content.attrs['class']} {content.text.strip()}")
+                # if 'data-timestamp' in content.attrs:
+                #     print(content.attrs['data-timestamp'])
             # print(content.class)
         break
     break
