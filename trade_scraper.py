@@ -1,6 +1,9 @@
 import csv
 import time
+
 from bs4 import BeautifulSoup as bs
+from bs4.element import NavigableString
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -22,17 +25,34 @@ time.sleep(30)
 # todo: no duplicates
 
 
+soup = bs(browser.page_source, "html.parser")
+result = soup.find_all('div', class_='trades-list hide-scrollbar -logos')
+for res in result:
+    for list_items in res:
+        print(f"{list_items.attrs['class']} -- {list_items.attrs['title']}")
+        for content in list_items:
+            if isinstance(content, NavigableString):
+                print("found a NavigableString")
+                pass
+            else:
+                type(content)
+                print(f"{content}\n")
+            # print(content.class)
+        break
+    break
+
+
 def get_soup():
     return bs(browser.page_source, "html.parser")
 
 
 def extract_save_csv():
     soup = get_soup()
-    result = soup.select('.hide-scrollbar ul') # trades-list hide-scrollbar -logos
+    result = soup.find_all('div', class_='trades-list hide-scrollbar -logos')
     with open('trade_watcher.csv', 'a', newline="") as trade_watcher:
         writeCSV = csv.writer(trade_watcher)
-        for unorder_list in result:
-            for list_item in unorder_list:
+        for res in result:
+            for list_item in res:
                 writeCSV.writerow([f"{list_item.attrs['class'][1]}"])
                 for content in list_item:
                     writeCSV.writerow([f"\t\t{content.attrs['class']}"])
