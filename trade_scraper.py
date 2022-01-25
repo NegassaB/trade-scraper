@@ -27,6 +27,38 @@ time.sleep(30)
 
 soup = bs(browser.page_source, "html.parser")
 result = soup.find_all('div', class_='trades-list hide-scrollbar -logos')
+
+trade_list = {}
+for res in result:
+    for list_items in res:
+        print(f"{list_items.attrs['class']} -- {list_items.attrs['title']}") 
+        divs = list_items.find_all('div')
+        while len(divs) > 0:
+            div = divs.pop(0)
+            if 'trade__price' in div.attrs['class']:
+                trade_list[f"{list_items.attrs['class']} -- {list_items.attrs['title']}"] = {'trade__price': div.text}
+            elif 'data-timestamp' in div.attrs:
+                trade_list[f"{list_items.attrs['class']} -- {list_items.attrs['title']}"] = {'trade__timestamp': div.text}
+            elif 'trade__amount' in div.attrs['class']:
+                spans = div.find_all('span')
+                print(spans)
+                while len(spans) > 0:
+                    span = spans.pop(0)
+                    if isinstance(span, NavigableString):
+                        pass
+                    else:
+                        if 'trade__amount__quote' in span.attrs['class']:
+                            trade_list[f"{list_items.attrs['class']} -- {list_items.attrs['title']}"] = {'trade__amount__quote': span.text}
+                        elif 'trade__amount__base' in span.attrs['class']:
+                            trade_list[f"{list_items.attrs['class']} -- {list_items.attrs['title']}"] = {'trade__amount__base': span.text}
+                        else:
+                            pass
+            else:
+                pass
+        break
+    break
+
+
 for res in result:
     for list_items in res:
         print(f"{list_items.attrs['class']} -- {list_items.attrs['title']}")
