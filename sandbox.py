@@ -42,17 +42,52 @@ for res in result:
                             trade_list[list_items.attrs['title']].update({'trade_amount_quote': span.text.strip()})
                         if 'trade__amount__base' in span.attrs['class']:
                             trade_list[list_items.attrs['title']].update({'trade_amount_base': span.text.strip()})
-        break
-    break
+        # break
+    # break
 
 print(trade_list)
 
 {
+    'BINANCE_FUTURES:btcusdt': {
+        'class': ['trade', '-BINANCE_FUTURES', '-buy', '-level-0'],
+        'trade_price': '36557',
+        'trade_amount_quote': '167K',
+        'trade_amount_base': '4.574',
+        'trade_timestamp': '1643115788860'
+    },
+    'BYBIT:BTCUSD': {
+        'class': ['trade', '-BYBIT', '-sell', '-level-0'],
+        'trade_price': '36558.5',
+        'trade_amount_quote': '120K',
+        'trade_amount_base': '3.2851',
+        'trade_timestamp': '1643115800000'
+    },
     'BINANCE_FUTURES:btcusd_perp': {
         'class': ['trade', '-BINANCE_FUTURES', '-sell', '-level-0'],
-        'trade_price': '34333.7',
-        'trade_amount_quote': '111K',
-        'trade_amount_base': '3.2242',
-        'trade_timestamp': '1643044043648'
+        'trade_price': '36566.8',
+        'trade_amount_quote': '145K',
+        'trade_amount_base': '3.9544',
+        'trade_timestamp': '1643115795237'
+    },
+    'BITMEX:XBTUSD': {
+        'class': ['trade', '-BITMEX', '-sell', '-level-0'],
+        'trade_price': '36551.0',
+        'trade_amount_quote': '140K',
+        'trade_amount_base': '3.8304',
+        'trade_timestamp': '1643115815532'
+    },
+    'FTX:BTC-PERP': {
+        'class': ['trade', '-FTX', '-sell', '-level-0'],
+        'trade_price': '36599.0',
+        'trade_amount_quote': '115K',
+        'trade_amount_base': '3.1444',
+        'trade_timestamp': '1643115795394'
+    },
+    'BYBIT:BTCUSDT': {
+        'class': ['trade', '-BYBIT', '-sell', '-level-0'],
+        'trade_price': '36542.0',
+        'trade_amount_quote': '180K',
+        'trade_amount_base': '4.939',
+        'trade_timestamp': '1643115800000'
     }
 }
