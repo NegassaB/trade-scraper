@@ -28,6 +28,8 @@ for res in result:
             div = divs.pop(0)
             if 'trade__price' in div.attrs['class']:
                 trade_list[list_items.attrs['title']].update({'trade_price': div.text.strip()})
+            if 'data-timestamp' in div.attrs:
+                trade_list[list_items.attrs['title']].update({'trade_timestamp': div.attrs['data-timestamp']})
             if 'trade__amount' in div.attrs['class']:
                 spans = div.find_all('span')
                 while len(spans) > 0:
@@ -39,8 +41,6 @@ for res in result:
                             trade_list[list_items.attrs['title']].update({'trade_amount_quote': span.text.strip()})
                         if 'trade__amount__base' in span.attrs['class']:
                             trade_list[list_items.attrs['title']].update({'trade_amount_base': span.text.strip()})
-            if 'data-timestamp' in div.attrs:
-                trade_list[list_items.attrs['title']].update({'trade_timestamp': div.attrs['data-timestamp']})
 
 print(trade_list)
 
