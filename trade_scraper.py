@@ -50,17 +50,14 @@ def extract_trades():
     result = soup.find_all('div', class_='trades-list hide-scrollbar -logos')
     for outter_div in result:
         for li in outter_div:
-            # trade_dict[li.attrs['title']] = {'class': li.attrs['class']}
             inner_divs = li.find_all('div')
             while len(inner_divs) > 0:
                 div = inner_divs.pop(0)
                 if 'trade__price' in div.attrs['class']:
                     price = div.text.strip()
                     trade_dict[price] = {'title': li.attrs['title']}
-                    # trade_dict[li.attrs['title']].update({'trade_price': div.text.strip()})
                 if 'data-timestamp' in div.attrs:
                     trade_dict[price].update({'trade_timestamp': div.attrs['data-timestamp']})
-                    # trade_dict[li.attrs['title']].update({'trade_timestamp': div.attrs['data-timestamp']})
                 if 'trade__amount' in div.attrs['class']:
                     spans = div.find_all('span')
                     while len(spans) > 0:
@@ -70,10 +67,8 @@ def extract_trades():
                         else:
                             if 'trade__amount__quote' in span.attrs['class']:
                                 trade_dict[price].update({'trade_amount_quote': span.text.strip()})
-                                # trade_dict[li.attrs['title']].update({'trade_amount_quote': span.text.strip()})
                             if 'trade__amount__base' in span.attrs['class']:
                                 trade_dict[price].update({'trade_amount_base': span.text.strip()})
-                                # trade_dict[li.attrs['title']].update({'trade_amount_base': span.text.strip()})
 
 
 def runner():
