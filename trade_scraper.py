@@ -1,5 +1,5 @@
 import json
-import os
+import sys
 import time
 
 from bs4 import BeautifulSoup as bs
@@ -38,6 +38,7 @@ def save_2_file(trade_dict):
     with open('trade_watcher.json', 'w+') as trade_watcher:
         json.dump(trade_dict, trade_watcher)
 
+    time.sleep(2)
     print(trade_dict)
 
 
@@ -71,8 +72,13 @@ def extract_trades():
 
 def runner():
     while True:
-        extract_trades()
-        save_2_file(trade_dict)
+        try:
+            extract_trades()
+            save_2_file(trade_dict)
+        except Exception as e:
+            print(str(e))
+            browser.close()
+            sys.exit(1)
 
 
 if __name__ == "__main__":
