@@ -38,6 +38,7 @@ def get_soup():
 
 
 soup = get_soup()
+soup = get_soup()
 if soup:
     result = soup.find_all('div', class_='trades-list hide-scrollbar -logos')
 
