@@ -77,7 +77,7 @@ def runner():
             extract_trades()
             save_2_file(trade_dict)
         except Exception as e:
-            print(e)
+            print(e, exc_info=True)
             browser.close()
             sys.exit(1)
 
