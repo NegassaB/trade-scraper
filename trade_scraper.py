@@ -11,7 +11,7 @@ from selenium.webdriver.support import (expected_conditions as EC, ui)
 
 
 browser_options = Options()
-# browser_options.add_argument("--headless")
+browser_options.add_argument("--headless")
 browser_options.add_argument("--incognito")
 
 browser = webdriver.Chrome(options=browser_options)
