@@ -39,24 +39,25 @@ def save_2_file(trade_dict):
         json.dump(trade_dict, trade_watcher)
 
     time.sleep(2)
-    print(trade_dict)
 
 
 def extract_trades():
+    price = ""
+
     soup = get_soup()
     time.sleep(0.5)
     soup = get_soup()
     result = soup.find_all('div', class_='trades-list hide-scrollbar -logos')
     for outter_div in result:
         for li in outter_div:
-            trade_dict[li.attrs['title']] = {'class': li.attrs['class']}
             inner_divs = li.find_all('div')
             while len(inner_divs) > 0:
                 div = inner_divs.pop(0)
                 if 'trade__price' in div.attrs['class']:
-                    trade_dict[li.attrs['title']].update({'trade_price': div.text.strip()})
+                    price = div.text.strip()
+                    trade_dict[price] = {'title': li.attrs['title']}
                 if 'data-timestamp' in div.attrs:
-                    trade_dict[li.attrs['title']].update({'trade_timestamp': div.attrs['data-timestamp']})
+                    trade_dict[price].update({'trade_timestamp': div.attrs['data-timestamp']})
                 if 'trade__amount' in div.attrs['class']:
                     spans = div.find_all('span')
                     while len(spans) > 0:
@@ -65,9 +66,9 @@ def extract_trades():
                             pass
                         else:
                             if 'trade__amount__quote' in span.attrs['class']:
-                                trade_dict[li.attrs['title']].update({'trade_amount_quote': span.text.strip()})
+                                trade_dict[price].update({'trade_amount_quote': span.text.strip()})
                             if 'trade__amount__base' in span.attrs['class']:
-                                trade_dict[li.attrs['title']].update({'trade_amount_base': span.text.strip()})
+                                trade_dict[price].update({'trade_amount_base': span.text.strip()})
 
 
 def runner():
@@ -76,7 +77,7 @@ def runner():
             extract_trades()
             save_2_file(trade_dict)
         except Exception as e:
-            print(str(e))
+            print(e, exc_info=True)
             browser.close()
             sys.exit(1)
 
